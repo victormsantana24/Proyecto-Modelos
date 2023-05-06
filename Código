@@ -1,0 +1,2712 @@
+## Instalamos las paqueterias principales para el desarrollo del trabajo
+install.packages("MVA")
+library("MVA")
+install.packages("mvtnorm")
+install.packages("readr")
+library(readr)
+
+## Seleccionamos la base de datos previamente guardada
+file.choose()
+
+## Cambiamos la ruta al abrir en otro dispositivo
+rutabase = "/Users/victormanuel/Desktop/UNIVERSIDAD/10° Semestre/Modelos y Simulación/PROYECTO/Poblacion.csv"
+base = read.csv(rutabase)
+
+## Visualizamos la base de datos
+View(base)
+
+##Eliminamos la fila 1 y nombramos una nueva base
+base2<- base[-c(1),]
+base2
+View(base2)
+
+
+
+## EDO. AGUASCALIENTES
+
+a=7^5
+m=2^31-1
+S0AG=200003173   # Simulacion i
+S1AG=202003179   # Simulacion j
+n=10000
+
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0AG=rep(0,n+1)
+vec_S0AG[1]=S0AG
+for(i in 2:(n+1)){
+  vec_S0AG[i]=as.double(a*vec_S0AG[i-1])%%m
+}
+vec_S0AG=vec_S0AG/m
+vec_S0AG<-vec_S0AG[-1]
+plot(vec_S0AG)
+hist(vec_S0AG)
+
+## SELECCIONAR i:
+
+vec_i=rep(0,length(vec_S0AG))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0AG[i]<.5) {
+    vec_i[i]=base2[2,13]
+  } else {
+    vec_i[i]=base2[2,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023:
+
+Poblacion2020AG=base2[2,4]
+Poblacion2020AG
+
+Poblacion2023AG=((1+vec_i)^3)*(Poblacion2020AG)
+Poblacion2023AG
+
+hist(Poblacion2023AG)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j:
+
+vec_S1AG=rep(0,n+1)
+vec_S1AG[1]=S1AG
+for(i in 2:(n+1)){
+  vec_S1AG[i]=as.double(a*vec_S1AG[i-1])%%m
+}
+vec_S1AG=vec_S1AG/m
+vec_S1AG<-vec_S1AG[-1]
+plot(vec_S1AG)
+hist(vec_S1AG)
+
+##Seleccionamos una j:
+
+vec_jAG=rep(0,length(vec_S1AG))
+
+for(j in 1:n){
+  
+  if (vec_S1AG[j] < 1/3) {
+    vec_jAG[j]=base2[2,15]
+  } else {
+    if (vec_S1AG[j] < 2/3) {
+      vec_jAG[j]=base2[2,16]
+    } else {
+      vec_jAG[j]=base2[2,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023AG=Poblacion2023AG*vec_jAG
+Migracion2023AG
+
+hist(Migracion2023AG)
+hist(vec_jAG)
+
+
+
+
+## EDO BAJA CALIFORNIA
+
+a=7^5
+m=2^31-1
+S0BC=200003173+2*2   # Simulacion i
+S1BC=202003179+2*2   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0BC=rep(0,n+1)
+vec_S0BC[1]=S0BC
+for(i in 2:(n+1)){
+  vec_S0BC[i]=as.double(a*vec_S0BC[i-1])%%m
+}
+vec_S0BC=vec_S0BC/m
+vec_S0BC<-vec_S0BC[-1]
+plot(vec_S0BC)
+hist(vec_S0BC)
+
+## SELECCIONAR i
+
+vec_iBC=rep(0,length(vec_S0BC))
+
+for(i in 1:n){
+  
+  if(vec_S0BC[i]<.5) {
+    vec_iBC[i]=base2[3,13]
+  } else {
+    vec_iBC[i]=base2[3,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020BC=base2[3,4]
+Poblacion2020BC
+
+Poblacion2023BC=((1+vec_i)^3)*(Poblacion2020BC)
+Poblacion2023BC
+
+hist(Poblacion2023BC)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1BC=rep(0,n+1)
+vec_S1BC[1]=S1BC
+for(i in 2:(n+1)){
+  vec_S1BC[i]=as.double(a*vec_S1BC[i-1])%%m
+}
+vec_S1BC=vec_S1BC/m
+vec_S1BC<-vec_S1BC[-1]
+plot(vec_S1BC)
+hist(vec_S1BC)
+
+##Seleccionamos una j
+
+vec_jBC=rep(0,length(vec_S1BC))
+
+for(j in 1:n){
+  
+  if (vec_S1BC[j] < 1/3) {
+    vec_jBC[j]=base2[3,15]
+  } else {
+    if (vec_S1BC[j] < 2/3) {
+      vec_jBC[j]=base2[3,16]
+    } else {
+      vec_jBC[j]=base2[3,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023BC=Poblacion2023BC*vec_jBC
+Migracion2023BC
+
+hist(Migracion2023BC)
+hist(vec_jBC)
+
+
+# EDO. BAJA CALIFORNIA SUR
+
+a=7^5
+m=2^31-1
+S0BCS=200003173+2*3   # Simulacion i
+S1BCS=202003179+2*3   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0BCS=rep(0,n+1)
+vec_S0BCS[1]=S0BCS
+for(i in 2:(n+1)){
+  vec_S0BCS[i]=as.double(a*vec_S0BCS[i-1])%%m
+}
+vec_S0BCS=vec_S0BCS/m
+vec_S0BCS<-vec_S0BCS[-1]
+plot(vec_S0BCS)
+hist(vec_S0BCS)
+
+## SELECCIONAR i
+
+vec_iBCS=rep(0,length(vec_S0BCS))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0BCS[i]<.5) {
+    vec_iBCS[i]=base2[4,13]
+  } else {
+    vec_iBCS[i]=base2[4,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020BCS=base2[4,4]
+Poblacion2020BCS
+
+Poblacion2023BCS=((1+vec_iBCS)^3)*(Poblacion2020BCS)
+Poblacion2023BCS
+
+hist(Poblacion2023BCS)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1BCS=rep(0,n+1)
+vec_S1BCS[1]=S1BCS
+for(i in 2:(n+1)){
+  vec_S1BCS[i]=as.double(a*vec_S1BCS[i-1])%%m
+}
+vec_S1BCS=vec_S1BCS/m
+vec_S1BCS<-vec_S1BCS[-1]
+plot(vec_S1BCS)
+hist(vec_S1BCS)
+
+##Seleccionamos una j
+
+vec_jBCS=rep(0,length(vec_S1BCS))
+
+for(j in 1:n){
+  
+  if (vec_S1BCS[j] < 1/3) {
+    vec_jBCS[j]=base2[4,15]
+  } else {
+    if (vec_S1BCS[j] < 2/3) {
+      vec_jBCS[j]=base2[4,16]
+    } else {
+      vec_jBCS[j]=base2[4,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023BCS=Poblacion2023BCS*vec_jBCS
+Migracion2023BCS
+
+hist(Migracion2023BCS)
+hist(vec_jBCS)
+
+
+# EDO. CAMPECHE
+
+a=7^5
+m=2^31-1
+S0CA=200003173+2*4   # Simulacion i
+S1CA=202003179+2*4   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0CA=rep(0,n+1)
+vec_S0CA[1]=S0CA
+for(i in 2:(n+1)){
+  vec_S0CA[i]=as.double(a*vec_S0CA[i-1])%%m
+}
+vec_S0CA=vec_S0CA/m
+vec_S0CA<-vec_S0CA[-1]
+plot(vec_S0CA)
+hist(vec_S0CA)
+
+## SELECCIONAR i
+
+vec_iCA=rep(0,length(vec_S0CA))
+
+for(i in 1:n){
+  
+  if(vec_S0CA[i]<.5) {
+    vec_iCA[i]=base2[5,13]
+  } else {
+    vec_iCA[i]=base2[5,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020CA=base2[5,4]
+Poblacion2020CA
+
+Poblacion2023CA=((1+vec_iCA)^3)*(Poblacion2020CA)
+Poblacion2023CA
+
+hist(Poblacion2023CA)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1CA=rep(0,n+1)
+vec_S1CA[1]=S1CA
+for(i in 2:(n+1)){
+  vec_S1CA[i]=as.double(a*vec_S1CA[i-1])%%m
+}
+vec_S1CA=vec_S1CA/m
+vec_S1CA<-vec_S1CA[-1]
+plot(vec_S1CA)
+hist(vec_S1CA)
+
+##Seleccionamos una j
+
+vec_jCA=rep(0,length(vec_S1CA))
+
+for(j in 1:n){
+  
+  if (vec_S1CA[j] < 1/3) {
+    vec_jCA[j]=base2[5,15]
+  } else {
+    if (vec_S1CA[j] < 2/3) {
+      vec_jCA[j]=base2[5,16]
+    } else {
+      vec_jCA[j]=base2[5,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023CA=Poblacion2023CA*vec_jCA
+Migracion2023CA
+
+hist(Migracion2023CA)
+hist(vec_jCA)
+
+
+# EDO. COAHUILA
+
+a=7^5
+m=2^31-1
+S0CO=200003173+2*5   # Simulacion i
+S1CO=202003179+2*5   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0CO=rep(0,n+1)
+vec_S0CO[1]=S0CO
+for(i in 2:(n+1)){
+  vec_S0CO[i]=as.double(a*vec_S0CO[i-1])%%m
+}
+vec_S0CO=vec_S0CO/m
+vec_S0CO<-vec_S0CO[-1]
+plot(vec_S0CO)
+hist(vec_S0CO)
+
+## SELECCIONAR i
+
+vec_iCO=rep(0,length(vec_S0CO))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0CO[i]<.5) {
+    vec_iCO[i]=base2[6,13]
+  } else {
+    vec_iCO[i]=base2[6,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020CO=base2[6,4]
+
+Poblacion2023CO=((1+vec_iCO)^3)*(Poblacion2020CO)
+Poblacion2023CO
+
+hist(Poblacion2023CO)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1CO=rep(0,n+1)
+vec_S1CO[1]=S1CO
+for(i in 2:(n+1)){
+  vec_S1CO[i]=as.double(a*vec_S1CO[i-1])%%m
+}
+vec_S1CO=vec_S1CO/m
+vec_S1CO<-vec_S1CO[-1]
+plot(vec_S1CO)
+hist(vec_S1CO)
+
+##Seleccionamos una j
+
+vec_jCO=rep(0,length(vec_S1CO))
+
+for(j in 1:n){
+  
+  if (vec_S1CO[j] < 1/3) {
+    vec_jCO[j]=base2[6,15]
+  } else {
+    if (vec_S1CO[j] < 2/3) {
+      vec_jCO[j]=base2[6,16]
+    } else {
+      vec_jCO[j]=base2[6,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023CO=Poblacion2023CO*vec_jCO
+Migracion2023CO
+
+hist(Migracion2023CO)
+hist(vec_jCO)
+
+
+# EDO. COLIMA
+
+a=7^5
+m=2^31-1
+S0CL=200003173+2*6   # Simulacion i
+S1CL=202003179+2*6   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0CL=rep(0,n+1)
+vec_S0CL[1]=S0CL
+for(i in 2:(n+1)){
+  vec_S0CL[i]=as.double(a*vec_S0CL[i-1])%%m
+}
+vec_S0CL=vec_S0CL/m
+vec_S0CL<-vec_S0CL[-1]
+plot(vec_S0CL)
+hist(vec_S0CL)
+
+## SELECCIONAR i
+
+vec_iCL=rep(0,length(vec_S0CL))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0CL[i]<.5) {
+    vec_iCL[i]=base2[7,13]
+  } else {
+    vec_iCL[i]=base2[7,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020CL=base2[7,4]
+Poblacion2020CL
+
+Poblacion2023CL=((1+vec_iCL)^3)*(Poblacion2020CL)
+Poblacion2023CL
+
+hist(Poblacion2023CL)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1CL=rep(0,n+1)
+vec_S1CL[1]=S1CL
+for(i in 2:(n+1)){
+  vec_S1CL[i]=as.double(a*vec_S1CL[i-1])%%m
+}
+vec_S1CL=vec_S1CL/m
+vec_S1CL<-vec_S1CL[-1]
+plot(vec_S1CL)
+hist(vec_S1CL)
+
+##Seleccionamos una j
+
+vec_jCL=rep(0,length(vec_S1CL))
+
+for(j in 1:n){
+  
+  if (vec_S1CL[j] < 1/3) {
+    vec_jCL[j]=base2[7,15]
+  } else {
+    if (vec_S1CL[j] < 2/3) {
+      vec_jCL[j]=base2[7,16]
+    } else {
+      vec_jCL[j]=base2[7,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023CL=Poblacion2023CL*vec_jCL
+Migracion2023CL
+
+hist(Migracion2023CL)
+hist(vec_jCL)
+
+
+# EDO. CHIAPAS
+
+a=7^5
+m=2^31-1
+S0CS=200003173+2*7   # Simulacion i
+S1CS=202003179+2*7   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0CS=rep(0,n+1)
+vec_S0CS[1]=S0CS
+for(i in 2:(n+1)){
+  vec_S0CS[i]=as.double(a*vec_S0CS[i-1])%%m
+}
+vec_S0CS=vec_S0CS/m
+vec_S0CS<-vec_S0CS[-1]
+plot(vec_S0CS)
+hist(vec_S0CS)
+
+## SELECCIONAR i
+
+vec_iCS=rep(0,length(vec_S0CS))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0CS[i]<.5) {
+    vec_iCS[i]=base2[8,13]
+  } else {
+    vec_iCS[i]=base2[8,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020CS=base2[8,4]
+Poblacion2020CS
+
+Poblacion2023CS=((1+vec_i)^3)*(Poblacion2020CS)
+Poblacion2023CS
+
+hist(Poblacion2023BCS)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1CS=rep(0,n+1)
+vec_S1CS[1]=S1CS
+for(i in 2:(n+1)){
+  vec_S1CS[i]=as.double(a*vec_S1CS[i-1])%%m
+}
+vec_S1CS=vec_S1CS/m
+vec_S1CS<-vec_S1CS[-1]
+plot(vec_S1CS)
+hist(vec_S1CS)
+
+##Seleccionamos una j
+
+vec_jCS=rep(0,length(vec_S1CS))
+
+for(j in 1:n){
+  
+  if (vec_S1CS[j] < 1/3) {
+    vec_jCS[j]=base2[8,15]
+  } else {
+    if (vec_S1CS[j] < 2/3) {
+      vec_jCS[j]=base2[8,16]
+    } else {
+      vec_jCS[j]=base2[8,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023CS=Poblacion2023CS*vec_jCS
+Migracion2023CS
+
+hist(Migracion2023CS)
+hist(vec_jCS)
+
+
+# EDO. CHIHUAHUA
+
+a=7^5
+m=2^31-1
+S0CH=200003173+2*8  # Simulacion i
+S1CH=202003179+2*8   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0CH=rep(0,n+1)
+vec_S0CH[1]=S0CH
+for(i in 2:(n+1)){
+  vec_S0CH[i]=as.double(a*vec_S0CH[i-1])%%m
+}
+vec_S0CH=vec_S0CH/m
+vec_S0CH<-vec_S0CH[-1]
+plot(vec_S0CH)
+hist(vec_S0CH)
+
+## SELECCIONAR i
+
+vec_iCH=rep(0,length(vec_S0CH))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0CH[i]<.5) {
+    vec_iCH[i]=base2[9,13]
+  } else {
+    vec_iCH[i]=base2[9,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020CH=base2[9,4]
+Poblacion2020CH
+
+Poblacion2023CH=((1+vec_iCH)^3)*(Poblacion2020CH)
+Poblacion2023CH
+
+hist(Poblacion2023CH)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1CH=rep(0,n+1)
+vec_S1CH[1]=S1CH
+for(i in 2:(n+1)){
+  vec_S1CH[i]=as.double(a*vec_S1CH[i-1])%%m
+}
+vec_S1CH=vec_S1CH/m
+vec_S1CH<-vec_S1CH[-1]
+plot(vec_S1CH)
+hist(vec_S1CH)
+
+##Seleccionamos una j
+
+vec_jCH=rep(0,length(vec_S1CH))
+
+for(j in 1:n){
+  
+  if (vec_S1CH[j] < 1/3) {
+    vec_jCH[j]=base2[9,15]
+  } else {
+    if (vec_S1CH[j] < 2/3) {
+      vec_jCH[j]=base2[9,16]
+    } else {
+      vec_jCH[j]=base2[9,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023CH=Poblacion2023CH*vec_jCH
+Migracion2023CH
+
+hist(Migracion2023CH)
+hist(vec_jCH)
+
+
+# CIUDAD DE MEXICO
+
+a=7^5
+m=2^31-1
+S0CM=200003173+2*9  # Simulacion i
+S1CM=202003179+2*9   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0CM=rep(0,n+1)
+vec_S0CM[1]=S0CM
+for(i in 2:(n+1)){
+  vec_S0CM[i]=as.double(a*vec_S0CM[i-1])%%m
+}
+vec_S0CM=vec_S0CM/m
+vec_S0CM<-vec_S0CM[-1]
+plot(vec_S0CM)
+hist(vec_S0CM)
+
+## SELECCIONAR i
+
+vec_iCM=rep(0,length(vec_S0CM))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0CM[i]<.5) {
+    vec_iCM[i]=base2[10,13]
+  } else {
+    vec_iCM[i]=base2[10,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020CM=base2[10,4]
+Poblacion2020CM
+
+Poblacion2023CM=((1+vec_iCM)^3)*(Poblacion2020CM)
+Poblacion2023CM
+
+hist(Poblacion2023CM)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1CM=rep(0,n+1)
+vec_S1CM[1]=S1CM
+for(i in 2:(n+1)){
+  vec_S1CM[i]=as.double(a*vec_S1CM[i-1])%%m
+}
+vec_S1CM=vec_S1CM/m
+vec_S1CM<-vec_S1CM[-1]
+plot(vec_S1CM)
+hist(vec_S1CM)
+
+##Seleccionamos una j
+
+vec_jCM=rep(0,length(vec_S1CM))
+
+for(j in 1:n){
+  
+  if (vec_S1CM[j] < 1/3) {
+    vec_jCM[j]=base2[10,15]
+  } else {
+    if (vec_S1CM[j] < 2/3) {
+      vec_jCM[j]=base2[10,16]
+    } else {
+      vec_jCM[j]=base2[10,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023CM=Poblacion2023CM*vec_jCM
+Migracion2023CM
+
+hist(Migracion2023CM)
+hist(vec_jCM)
+
+
+# EDO. DURANGO
+
+a=7^5
+m=2^31-1
+S0DG=200003173+2*10   # Simulacion i
+S1DG=202003179+2*10   # Simulacion j
+n=10000
+
+
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0DG=rep(0,n+1)
+vec_S0DG[1]=S0DG
+for(i in 2:(n+1)){
+  vec_S0DG[i]=as.double(a*vec_S0DG[i-1])%%m
+}
+vec_S0DG=vec_S0DG/m
+vec_S0DG<-vec_S0DG[-1]
+plot(vec_S0DG)
+hist(vec_S0DG)
+
+## SELECCIONAR i
+
+vec_iDG=rep(0,length(vec_S0DG))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0DG[i]<.5) {
+    vec_iDG[i]=base2[11,13]
+  } else {
+    vec_iDG[i]=base2[11,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020DG=base2[11,4]
+Poblacion2020DG
+
+Poblacion2023DG=((1+vec_iDG)^3)*(Poblacion2020DG)
+Poblacion2023DG
+
+hist(Poblacion2023DG)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1DG=rep(0,n+1)
+vec_S1DG[1]=S1DG
+for(i in 2:(n+1)){
+  vec_S1DG[i]=as.double(a*vec_S1DG[i-1])%%m
+}
+vec_S1DG=vec_S1DG/m
+vec_S1DG<-vec_S1DG[-1]
+plot(vec_S1DG)
+hist(vec_S1DG)
+
+##Seleccionamos una j
+
+vec_jDG=rep(0,length(vec_S1DG))
+
+for(j in 1:n){
+  
+  if (vec_S1DG[j] < 1/3) {
+    vec_jDG[j]=base2[11,15]
+  } else {
+    if (vec_S1DG[j] < 2/3) {
+      vec_jDG[j]=base2[11,16]
+    } else {
+      vec_jDG[j]=base2[11,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023DG=Poblacion2023DG*vec_jDG
+Migracion2023DG
+
+hist(Migracion2023DG)
+hist(vec_jDG)
+
+
+# EDO. GUANAJUATO
+
+a=7^5
+m=2^31-1
+S0GTO=200003173+2*11   # Simulacion i
+S1GTO=202003179+2*11   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0GTO=rep(0,n+1)
+vec_S0GTO[1]=S0GTO
+for(i in 2:(n+1)){
+  vec_S0GTO[i]=as.double(a*vec_S0GTO[i-1])%%m
+}
+vec_S0GTO=vec_S0GTO/m
+vec_S0GTO<-vec_S0GTO[-1]
+plot(vec_S0GTO)
+hist(vec_S0GTO)
+
+## SELECCIONAR i
+
+vec_iGTO=rep(0,length(vec_S0GTO))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0GTO[i]<.5) {
+    vec_iGTO[i]=base2[12,13]
+  } else {
+    vec_iGTO[i]=base2[12,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020GTO=base2[12,4]
+Poblacion2020GTO
+
+Poblacion2023GTO=((1+vec_iGTO)^3)*(Poblacion2020GTO)
+Poblacion2023GTO
+
+hist(Poblacion2023GTO)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1GTO=rep(0,n+1)
+vec_S1GTO[1]=S1GTO
+for(i in 2:(n+1)){
+  vec_S1GTO[i]=as.double(a*vec_S1GTO[i-1])%%m
+}
+vec_S1GTO=vec_S1GTO/m
+vec_S1GTO<-vec_S1GTO[-1]
+plot(vec_S1GTO)
+hist(vec_S1GTO)
+
+##Seleccionamos una j
+
+vec_jGTO=rep(0,length(vec_S1GTO))
+
+for(j in 1:n){
+  
+  if (vec_S1GTO[j] < 1/3) {
+    vec_jGTO[j]=base2[12,15]
+  } else {
+    if (vec_S1GTO[j] < 2/3) {
+      vec_jGTO[j]=base2[12,16]
+    } else {
+      vec_jGTO[j]=base2[12,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023GTO=Poblacion2023GTO*vec_jGTO
+Migracion2023GTO
+
+hist(Migracion2023GTO)
+hist(vec_jGTO)
+
+
+# EDO. GUERRERO
+
+a=7^5
+m=2^31-1
+S0GRO=200003173+2*12   # Simulacion i
+S1GRO=202003179+2*12   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0GRO=rep(0,n+1)
+vec_S0GRO[1]=S0GRO
+for(i in 2:(n+1)){
+  vec_S0GRO[i]=as.double(a*vec_S0GRO[i-1])%%m
+}
+vec_S0GRO=vec_S0GRO/m
+vec_S0GRO<-vec_S0GRO[-1]
+plot(vec_S0GRO)
+hist(vec_S0GRO)
+
+## SELECCIONAR i
+
+vec_iGRO=rep(0,length(vec_S0GRO))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0GRO[i]<.5) {
+    vec_iGRO[i]=base2[13,13]
+  } else {
+    vec_iGRO[i]=base2[13,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020GRO=base2[13,4]
+Poblacion2020GRO
+
+Poblacion2023GRO=((1+vec_iGRO)^3)*(Poblacion2020GRO)
+Poblacion2023GRO
+
+hist(Poblacion2023GRO)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1GRO=rep(0,n+1)
+vec_S1GRO[1]=S1GRO
+for(i in 2:(n+1)){
+  vec_S1GRO[i]=as.double(a*vec_S1GRO[i-1])%%m
+}
+vec_S1GRO=vec_S1GRO/m
+vec_S1GRO<-vec_S1GRO[-1]
+plot(vec_S1GRO)
+hist(vec_S1GRO)
+
+##Seleccionamos una j
+
+vec_jGRO=rep(0,length(vec_S1GRO))
+
+for(j in 1:n){
+  
+  if (vec_S1GRO[j] < 1/3) {
+    vec_jGRO[j]=base2[13,15]
+  } else {
+    if (vec_S1GRO[j] < 2/3) {
+      vec_jGRO[j]=base2[13,16]
+    } else {
+      vec_jGRO[j]=base2[13,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023GRO=Poblacion2023GRO*vec_jGRO
+Migracion2023GRO
+
+hist(Migracion2023GRO)
+hist(vec_jGRO)
+
+
+# EDO. HIDALGO
+
+a=7^5
+m=2^31-1
+S0HG=200003173+2*13   # Simulacion i
+S1HG=202003179+2*13   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0HG=rep(0,n+1)
+vec_S0HG[1]=S0HG
+for(i in 2:(n+1)){
+  vec_S0HG[i]=as.double(a*vec_S0HG[i-1])%%m
+}
+vec_S0HG=vec_S0HG/m
+vec_S0HG<-vec_S0HG[-1]
+plot(vec_S0HG)
+hist(vec_S0HG)
+
+## SELECCIONAR i
+
+vec_iHG=rep(0,length(vec_S0HG))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0HG[i]<.5) {
+    vec_iHG[i]=base2[14,13]
+  } else {
+    vec_iHG[i]=base2[14,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020HG=base2[14,4]
+Poblacion2020HG
+
+Poblacion2023HG=((1+vec_iHG)^3)*(Poblacion2020HG)
+Poblacion2023HG
+
+hist(Poblacion2023HG)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1HG=rep(0,n+1)
+vec_S1HG[1]=S1HG
+for(i in 2:(n+1)){
+  vec_S1HG[i]=as.double(a*vec_S1HG[i-1])%%m
+}
+vec_S1HG=vec_S1HG/m
+vec_S1HG<-vec_S1HG[-1]
+plot(vec_S1HG)
+hist(vec_S1HG)
+
+##Seleccionamos una j
+
+vec_jHG=rep(0,length(vec_S1HG))
+
+for(j in 1:n){
+  
+  if (vec_S1HG[j] < 1/3) {
+    vec_jHG[j]=base2[14,15]
+  } else {
+    if (vec_S1HG[j] < 2/3) {
+      vec_jHG[j]=base2[14,16]
+    } else {
+      vec_jHG[j]=base2[14,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023HG=Poblacion2023HG*vec_jHG
+Migracion2023HG
+
+hist(Migracion2023HG)
+hist(vec_jHG)
+
+
+# EDO. JALISCO
+
+a=7^5
+m=2^31-1
+S0JA=200003173+2*14   # Simulacion i
+S1JA=202003179+2*14   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0JA=rep(0,n+1)
+vec_S0JA[1]=S0JA
+for(i in 2:(n+1)){
+  vec_S0JA[i]=as.double(a*vec_S0JA[i-1])%%m
+}
+vec_S0JA=vec_S0JA/m
+vec_S0JA<-vec_S0JA[-1]
+plot(vec_S0JA)
+hist(vec_S0JA)
+
+## SELECCIONAR i
+
+vec_iJA=rep(0,length(vec_S0JA))
+
+for(i in 1:n){
+  
+  if(vec_S0JA[i]<.5) {
+    vec_iJA[i]=base2[15,13]
+  } else {
+    vec_iJA[i]=base2[15,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020JA=base2[15,4]
+Poblacion2020JA
+
+Poblacion2023JA=((1+vec_iJA)^3)*(Poblacion2020JA)
+Poblacion2023JA
+
+hist(Poblacion2023JA)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1JA=rep(0,n+1)
+vec_S1JA[1]=S1JA
+for(i in 2:(n+1)){
+  vec_S1JA[i]=as.double(a*vec_S1JA[i-1])%%m
+}
+vec_S1JA=vec_S1JA/m
+vec_S1JA<-vec_S1JA[-1]
+plot(vec_S1JA)
+hist(vec_S1JA)
+
+##Seleccionamos una j
+
+vec_jJA=rep(0,length(vec_S1JA))
+
+for(j in 1:n){
+  
+  if (vec_S1JA[j] < 1/3) {
+    vec_jJA[j]=base2[15,15]
+  } else {
+    if (vec_S1JA[j] < 2/3) {
+      vec_jJA[j]=base2[15,16]
+    } else {
+      vec_jJA[j]=base2[15,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023JA=Poblacion2023JA*vec_jJA
+Migracion2023JA
+
+hist(Migracion2023JA)
+hist(vec_jJA)
+
+
+# ESTADO DE MEXICO
+
+a=7^5
+m=2^31-1
+S0EM=200003173+2*15   # Simulacion i
+S1EM=202003179+2*15   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0EM=rep(0,n+1)
+vec_S0EM[1]=S0EM
+for(i in 2:(n+1)){
+  vec_S0EM[i]=as.double(a*vec_S0EM[i-1])%%m
+}
+vec_S0EM=vec_S0EM/m
+vec_S0EM<-vec_S0EM[-1]
+plot(vec_S0EM)
+hist(vec_S0EM)
+
+## SELECCIONAR i
+
+vec_iEM=rep(0,length(vec_S0EM))
+
+for(i in 1:n){
+  
+  if(vec_S0EM[i]<.5) {
+    vec_iEM[i]=base2[16,13]
+  } else {
+    vec_iEM[i]=base2[16,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020EM=base2[16,4]
+Poblacion2020EM
+
+Poblacion2023EM=((1+vec_iEM)^3)*(Poblacion2020EM)
+Poblacion2023EM
+
+hist(Poblacion2023EM)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1EM=rep(0,n+1)
+vec_S1EM[1]=S1EM
+for(i in 2:(n+1)){
+  vec_S1EM[i]=as.double(a*vec_S1EM[i-1])%%m
+}
+vec_S1EM=vec_S1EM/m
+vec_S1EM<-vec_S1EM[-1]
+plot(vec_S1EM)
+hist(vec_S1EM)
+
+##Seleccionamos una j
+
+vec_jEM=rep(0,length(vec_S1EM))
+
+for(j in 1:n){
+  
+  if (vec_S1EM[j] < 1/3) {
+    vec_jEM[j]=base2[16,15]
+  } else {
+    if (vec_S1EM[j] < 2/3) {
+      vec_jEM[j]=base2[16,16]
+    } else {
+      vec_jEM[j]=base2[16,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023EM=Poblacion2023EM*vec_jEM
+Migracion2023EM
+
+hist(Migracion2023EM)
+hist(vec_jEM)
+
+
+# EDO. MICHOACAN
+
+a=7^5
+m=2^31-1
+S0MI=200003173+2*16   # Simulacion i
+S1MI=202003179+2*16   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0MI=rep(0,n+1)
+vec_S0MI[1]=S0MI
+for(i in 2:(n+1)){
+  vec_S0MI[i]=as.double(a*vec_S0MI[i-1])%%m
+}
+vec_S0MI=vec_S0MI/m
+vec_S0MI<-vec_S0MI[-1]
+plot(vec_S0MI)
+hist(vec_S0MI)
+
+## SELECCIONAR i
+
+vec_iMI=rep(0,length(vec_S0MI))
+
+for(i in 1:n){
+  
+  if(vec_S0MI[i]<.5) {
+    vec_iMI[i]=base2[17,13]
+  } else {
+    vec_iMI[i]=base2[17,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020MI=base2[17,4]
+Poblacion2020MI
+
+Poblacion2023MI=((1+vec_iMI)^3)*(Poblacion2020MI)
+Poblacion2023MI
+
+hist(Poblacion2023MI)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1MI=rep(0,n+1)
+vec_S1MI[1]=S1MI
+for(i in 2:(n+1)){
+  vec_S1MI[i]=as.double(a*vec_S1MI[i-1])%%m
+}
+vec_S1MI=vec_S1MI/m
+vec_S1MI<-vec_S1MI[-1]
+plot(vec_S1MI)
+hist(vec_S1MI)
+
+##Seleccionamos una j
+
+vec_jMI=rep(0,length(vec_S1MI))
+
+for(j in 1:n){
+  
+  if (vec_S1MI[j] < 1/3) {
+    vec_jMI[j]=base2[17,15]
+  } else {
+    if (vec_S1MI[j] < 2/3) {
+      vec_jMI[j]=base2[17,16]
+    } else {
+      vec_jMI[j]=base2[17,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023MI=Poblacion2023MI*vec_jMI
+Migracion2023MI
+
+hist(Migracion2023MI)
+hist(vec_jMI)
+
+
+# EDO. MORELOS
+
+a=7^5
+m=2^31-1
+S0MO=200003173+2*17   # Simulacion i
+S1MO=202003179+2*17   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0MO=rep(0,n+1)
+vec_S0MO[1]=S0MO
+for(i in 2:(n+1)){
+  vec_S0MO[i]=as.double(a*vec_S0MO[i-1])%%m
+}
+vec_S0MO=vec_S0MO/m
+vec_S0MO<-vec_S0MO[-1]
+plot(vec_S0MO)
+hist(vec_S0MO)
+
+## SELECCIONAR i
+
+vec_iMO=rep(0,length(vec_S0MO))
+
+for(i in 1:n){
+  
+  if(vec_S0MO[i]<.5) {
+    vec_iMO[i]=base2[18,13]
+  } else {
+    vec_iMO[i]=base2[18,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020MO=base2[18,4]
+Poblacion2020MO
+
+Poblacion2023MO=((1+vec_iMO)^3)*(Poblacion2020MO)
+Poblacion2023MO
+
+hist(Poblacion2023MO)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1MO=rep(0,n+1)
+vec_S1MO[1]=S1MO
+for(i in 2:(n+1)){
+  vec_S1MO[i]=as.double(a*vec_S1MO[i-1])%%m
+}
+vec_S1MO=vec_S1MO/m
+vec_S1MO<-vec_S1MO[-1]
+plot(vec_S1MO)
+hist(vec_S1MO)
+
+##Seleccionamos una j
+
+vec_jMO=rep(0,length(vec_S1MO))
+
+for(j in 1:n){
+  
+  if (vec_S1MO[j] < 1/3) {
+    vec_jMO[j]=base2[18,15]
+  } else {
+    if (vec_S1MO[j] < 2/3) {
+      vec_jMO[j]=base2[18,16]
+    } else {
+      vec_jMO[j]=base2[18,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023MO=Poblacion2023MO*vec_jMO
+Migracion2023MO
+
+hist(Migracion2023MO)
+hist(vec_jMO)
+
+
+## EDO. Nayarit
+
+a=7^5
+m=2^31-1
+S0NA=200003173+2*18   # Simulacion i
+S1NA=202003179+2*18   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0NA=rep(0,n+1)
+vec_S0NA[1]=S0NA
+for(i in 2:(n+1)){
+  vec_S0NA[i]=as.double(a*vec_S0NA[i-1])%%m
+}
+vec_S0NA=vec_S0NA/m
+vec_S0NA<-vec_S0NA[-1]
+plot(vec_S0NA)
+hist(vec_S0NA)
+
+## SELECCIONAR i
+
+vec_iNA=rep(0,length(vec_S0NA))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0NA[i]<.5) {
+    vec_iNA[i]=base2[19,13]
+  } else {
+    vec_iNA[i]=base2[19,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020NA=base2[19,4]
+Poblacion2020NA
+
+Poblacion2023NA=((1+vec_iNA)^3)*(Poblacion2020NA)
+Poblacion2023NA
+
+hist(Poblacion2023NA)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1NA=rep(0,n+1)
+vec_S1NA[1]=S1NA
+for(i in 2:(n+1)){
+  vec_S1NA[i]=as.double(a*vec_S1NA[i-1])%%m
+}
+vec_S1NA=vec_S1NA/m
+vec_S1NA<-vec_S1NA[-1]
+plot(vec_S1NA)
+hist(vec_S1NA)
+
+##Seleccionamos una j
+
+vec_jNA=rep(0,length(vec_S1NA))
+
+for(j in 1:n){
+  
+  if (vec_S1NA[j] < 1/3) {
+    vec_jNA[j]=base2[19,15]
+  } else {
+    if (vec_S1NA[j] < 2/3) {
+      vec_jNA[j]=base2[19,16]
+    } else {
+      vec_jNA[j]=base2[19,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023NA=Poblacion2023NA*vec_jNA
+Migracion2023NA
+
+hist(Migracion2023NA)
+hist(vec_jNA)
+
+
+## EDO. Nuevo León
+
+a=7^5
+m=2^31-1
+S0NL=200003173+2*19   # Simulacion i
+S1NL=202003179+2*19   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0NL=rep(0,n+1)
+vec_S0NL[1]=S0NL
+for(i in 2:(n+1)){
+  vec_S0NL[i]=as.double(a*vec_S0NL[i-1])%%m
+}
+vec_S0NL=vec_S0NL/m
+vec_S0NL<-vec_S0NL[-1]
+plot(vec_S0NL)
+hist(vec_S0NL)
+
+## SELECCIONAR i
+
+vec_iNL=rep(0,length(vec_S0NL))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0NL[i]<.5) {
+    vec_iNL[i]=base2[20,13]
+  } else {
+    vec_iNL[i]=base2[20,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020NL=base2[20,4]
+Poblacion2020NL
+
+Poblacion2023NL=((1+vec_iNL)^3)*(Poblacion2020NL)
+Poblacion2023NL
+
+hist(Poblacion2023NL)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1NL=rep(0,n+1)
+vec_S1NL[1]=S1NL
+for(i in 2:(n+1)){
+  vec_S1NL[i]=as.double(a*vec_S1NL[i-1])%%m
+}
+vec_S1NL=vec_S1NL/m
+vec_S1NL<-vec_S1NL[-1]
+plot(vec_S1NL)
+hist(vec_S1NL)
+
+##Seleccionamos una j
+
+vec_jNL=rep(0,length(vec_S1NL))
+
+for(j in 1:n){
+  
+  if (vec_S1NL[j] < 1/3) {
+    vec_jNL[j]=base2[20,15]
+  } else {
+    if (vec_S1NL[j] < 2/3) {
+      vec_jNL[j]=base2[20,16]
+    } else {
+      vec_jNL[j]=base2[20,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023NL=Poblacion2023NL*vec_jNL
+Migracion2023NL
+
+hist(Migracion2023NL)
+hist(vec_jNL)
+
+
+# EDO. OAXACA
+
+a=7^5
+m=2^31-1
+S0OA=200003173+2*20   # Simulacion i
+S1OA=202003179+2*20   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0OA=rep(0,n+1)
+vec_S0OA[1]=S0OA
+for(i in 2:(n+1)){
+  vec_S0OA[i]=as.double(a*vec_S0OA[i-1])%%m
+}
+vec_S0OA=vec_S0OA/m
+vec_S0OA<-vec_S0OA[-1]
+plot(vec_S0OA)
+hist(vec_S0OA)
+
+## SELECCIONAR i
+
+vec_iOA=rep(0,length(vec_S0OA))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0OA[i]<.5) {
+    vec_iOA[i]=base2[21,13]
+  } else {
+    vec_iOA[i]=base2[21,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020OA=base2[21,4]
+Poblacion2020OA
+
+Poblacion2023OA=((1+vec_iOA)^3)*(Poblacion2020OA)
+Poblacion2023OA
+
+hist(Poblacion2023OA)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1OA=rep(0,n+1)
+vec_S1OA[1]=S1OA
+for(i in 2:(n+1)){
+  vec_S1OA[i]=as.double(a*vec_S1OA[i-1])%%m
+}
+vec_S1OA=vec_S1OA/m
+vec_S1OA<-vec_S1OA[-1]
+plot(vec_S1OA)
+hist(vec_S1OA)
+
+##Seleccionamos una j
+
+vec_jOA=rep(0,length(vec_S1OA))
+
+for(j in 1:n){
+  
+  if (vec_S1OA[j] < 1/3) {
+    vec_jOA[j]=base2[21,15]
+  } else {
+    if (vec_S1OA[j] < 2/3) {
+      vec_jOA[j]=base2[21,16]
+    } else {
+      vec_jOA[j]=base2[21,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023OA=Poblacion2023OA*vec_jOA
+Migracion2023OA
+
+hist(Migracion2023OA)
+hist(vec_jOA)
+
+
+# EDO. PUEBLA
+
+a=7^5
+m=2^31-1
+S0PU=200003173+2*21   # Simulacion i
+S1PU=202003179+2*21   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0PU=rep(0,n+1)
+vec_S0PU[1]=S0PU
+for(i in 2:(n+1)){
+  vec_S0PU[i]=as.double(a*vec_S0PU[i-1])%%m
+}
+vec_S0PU=vec_S0PU/m
+vec_S0PU<-vec_S0PU[-1]
+plot(vec_S0PU)
+hist(vec_S0PU)
+
+## SELECCIONAR i
+
+vec_iPU=rep(0,length(vec_S0PU))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0PU[i]<.5) {
+    vec_iPU[i]=base2[22,13]
+  } else {
+    vec_iPU[i]=base2[22,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020PU=base2[22,4]
+Poblacion2020PU
+
+Poblacion2023PU=((1+vec_iPU)^3)*(Poblacion2020PU)
+Poblacion2023PU
+
+hist(Poblacion2023PU)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1PU=rep(0,n+1)
+vec_S1PU[1]=S1PU
+for(i in 2:(n+1)){
+  vec_S1PU[i]=as.double(a*vec_S1PU[i-1])%%m
+}
+vec_S1PU=vec_S1PU/m
+vec_S1PU<-vec_S1PU[-1]
+plot(vec_S1PU)
+hist(vec_S1PU)
+
+##Seleccionamos una j
+
+vec_jPU=rep(0,length(vec_S1PU))
+
+for(j in 1:n){
+  
+  if (vec_S1PU[j] < 1/3) {
+    vec_jPU[j]=base2[22,15]
+  } else {
+    if (vec_S1PU[j] < 2/3) {
+      vec_jPU[j]=base2[22,16]
+    } else {
+      vec_jPU[j]=base2[22,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023PU=Poblacion2023PU*vec_jPU
+Migracion2023PU
+
+hist(Migracion2023PU)
+hist(vec_jPU)
+
+
+# EDO. QUERETARO
+
+a=7^5
+m=2^31-1
+S0QT=200003173+2*22   # Simulacion i
+S1QT=202003179+2*22   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0QT=rep(0,n+1)
+vec_S0QT[1]=S0QT
+for(i in 2:(n+1)){
+  vec_S0QT[i]=as.double(a*vec_S0QT[i-1])%%m
+}
+vec_S0QT=vec_S0QT/m
+vec_S0QT<-vec_S0QT[-1]
+plot(vec_S0QT)
+hist(vec_S0QT)
+
+## SELECCIONAR i
+
+vec_iQT=rep(0,length(vec_S0QT))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0QT[i]<.5) {
+    vec_iQT[i]=base2[23,13]
+  } else {
+    vec_iQT[i]=base2[23,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020QT=base2[23,4]
+Poblacion2020QT
+
+Poblacion2023QT=((1+vec_iQT)^3)*(Poblacion2020QT)
+Poblacion2023QT
+
+hist(Poblacion2023QT)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1QT=rep(0,n+1)
+vec_S1QT[1]=S1QT
+for(i in 2:(n+1)){
+  vec_S1QT[i]=as.double(a*vec_S1QT[i-1])%%m
+}
+vec_S1QT=vec_S1QT/m
+vec_S1QT<-vec_S1QT[-1]
+plot(vec_S1QT)
+hist(vec_S1QT)
+
+##Seleccionamos una j
+
+vec_jQT=rep(0,length(vec_S1QT))
+
+for(j in 1:n){
+  
+  if (vec_S1QT[j] < 1/3) {
+    vec_jQT[j]=base2[23,15]
+  } else {
+    if (vec_S1QT[j] < 2/3) {
+      vec_jQT[j]=base2[23,16]
+    } else {
+      vec_jQT[j]=base2[23,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023QT=Poblacion2023QT*vec_jQT
+Migracion2023QT
+
+hist(Migracion2023QT)
+hist(vec_jQT)
+
+
+# EDO. QUINTANA ROO
+
+a=7^5
+m=2^31-1
+S0QR=200003173+2*23   # Simulacion i
+S1QR=202003179+2*23   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0QR=rep(0,n+1)
+vec_S0QR[1]=S0QR
+for(i in 2:(n+1)){
+  vec_S0QR[i]=as.double(a*vec_S0QR[i-1])%%m
+}
+vec_S0QR=vec_S0QR/m
+vec_S0QR<-vec_S0QR[-1]
+plot(vec_S0QR)
+hist(vec_S0QR)
+
+## SELECCIONAR i
+
+vec_iQR=rep(0,length(vec_S0QR))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0QR[i]<.5) {
+    vec_iQR[i]=base2[24,13]
+  } else {
+    vec_iQR[i]=base2[24,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020QR=base2[24,4]
+Poblacion2020QR
+
+Poblacion2023QR=((1+vec_iQR)^3)*(Poblacion2020QR)
+Poblacion2023QR
+
+hist(Poblacion2023QR)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1QR=rep(0,n+1)
+vec_S1QR[1]=S1QR
+for(i in 2:(n+1)){
+  vec_S1QR[i]=as.double(a*vec_S1QR[i-1])%%m
+}
+vec_S1QR=vec_S1QR/m
+vec_S1QR<-vec_S1QR[-1]
+plot(vec_S1QR)
+hist(vec_S1QR)
+
+##Seleccionamos una j
+
+vec_jQR=rep(0,length(vec_S1QR))
+
+for(j in 1:n){
+  
+  if (vec_S1QR[j] < 1/3) {
+    vec_jQR[j]=base2[24,15]
+  } else {
+    if (vec_S1QR[j] < 2/3) {
+      vec_jQR[j]=base2[24,16]
+    } else {
+      vec_jQR[j]=base2[24,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023QR=Poblacion2023QR*vec_jQR
+Migracion2023QR
+
+hist(Migracion2023QR)
+hist(vec_jQR)
+
+
+# EDO. SAN LUIS POTOSI
+
+a=7^5
+m=2^31-1
+S0SLP=200003173+2*24   # Simulacion i
+S1SLP=202003179+2*24   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0SLP=rep(0,n+1)
+vec_S0SLP[1]=S0SLP
+for(i in 2:(n+1)){
+  vec_S0SLP[i]=as.double(a*vec_S0SLP[i-1])%%m
+}
+vec_S0SLP=vec_S0SLP/m
+vec_S0SLP<-vec_S0SLP[-1]
+plot(vec_S0SLP)
+hist(vec_S0SLP)
+
+## SELECCIONAR i
+
+vec_iSLP=rep(0,length(vec_S0SLP))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0SLP[i]<.5) {
+    vec_iSLP[i]=base2[25,13]
+  } else {
+    vec_iSLP[i]=base2[25,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020SLP=base2[25,4]
+Poblacion2020SLP
+
+Poblacion2023SLP=((1+vec_iSLP)^3)*(Poblacion2020SLP)
+Poblacion2023SLP
+
+hist(Poblacion2023SLP)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1SLP=rep(0,n+1)
+vec_S1SLP[1]=S1SLP
+for(i in 2:(n+1)){
+  vec_S1SLP[i]=as.double(a*vec_S1SLP[i-1])%%m
+}
+vec_S1SLP=vec_S1SLP/m
+vec_S1SLP<-vec_S1SLP[-1]
+plot(vec_S1SLP)
+hist(vec_S1SLP)
+
+##Seleccionamos una j
+
+vec_jSLP=rep(0,length(vec_S1SLP))
+
+for(j in 1:n){
+  
+  if (vec_S1SLP[j] < 1/3) {
+    vec_jSLP[j]=base2[25,15]
+  } else {
+    if (vec_S1SLP[j] < 2/3) {
+      vec_jSLP[j]=base2[25,16]
+    } else {
+      vec_jSLP[j]=base2[25,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023SLP=Poblacion2023SLP*vec_jSLP
+Migracion2023SLP
+
+hist(Migracion2023SLP)
+hist(vec_jSLP)
+
+
+# EDO. SINALOA
+
+a=7^5
+m=2^31-1
+S0SI=200003173+2*25   # Simulacion i
+S1SI=202003179+2*25   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0SI=rep(0,n+1)
+vec_S0SI[1]=S0SI
+for(i in 2:(n+1)){
+  vec_S0SI[i]=as.double(a*vec_S0SI[i-1])%%m
+}
+vec_S0SI=vec_S0SI/m
+vec_S0SI<-vec_S0SI[-1]
+plot(vec_S0SI)
+hist(vec_S0SI)
+
+## SELECCIONAR i
+
+vec_iSI=rep(0,length(vec_S0SI))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0SI[i]<.5) {
+    vec_iSI[i]=base2[26,13]
+  } else {
+    vec_iSI[i]=base2[26,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020SI=base2[26,4]
+Poblacion2020SI
+
+Poblacion2023SI=((1+vec_iSI)^3)*(Poblacion2020SI)
+Poblacion2023SI
+
+hist(Poblacion2023SI)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1SI=rep(0,n+1)
+vec_S1SI[1]=S1SI
+for(i in 2:(n+1)){
+  vec_S1SI[i]=as.double(a*vec_S1SI[i-1])%%m
+}
+vec_S1SI=vec_S1SI/m
+vec_S1SI<-vec_S1SI[-1]
+plot(vec_S1SI)
+hist(vec_S1SI)
+
+##Seleccionamos una j
+
+vec_jSI=rep(0,length(vec_S1SI))
+
+for(j in 1:n){
+  
+  if (vec_S1SI[j] < 1/3) {
+    vec_jSI[j]=base2[26,15]
+  } else {
+    if (vec_S1SI[j] < 2/3) {
+      vec_jSI[j]=base2[26,16]
+    } else {
+      vec_jSI[j]=base2[26,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023SI=Poblacion2023SI*vec_jSI
+Migracion2023SI
+
+hist(Migracion2023SI)
+hist(vec_jSI)
+
+
+# EDO. SONORA
+
+a=7^5
+m=2^31-1
+S0SO=200003173+2*26   # Simulacion i
+S1SO=202003179+2*26   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0SO=rep(0,n+1)
+vec_S0SO[1]=S0SO
+for(i in 2:(n+1)){
+  vec_S0SO[i]=as.double(a*vec_S0SO[i-1])%%m
+}
+vec_S0SO=vec_S0SO/m
+vec_S0SO<-vec_S0SO[-1]
+plot(vec_S0SO)
+hist(vec_S0SO)
+
+## SELECCIONAR i
+
+vec_iSO=rep(0,length(vec_S0SO))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0SO[i]<.5) {
+    vec_iSO[i]=base2[27,13]
+  } else {
+    vec_iSO[i]=base2[27,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020SO=base2[27,4]
+Poblacion2020SO
+
+Poblacion2023SO=((1+vec_iSO)^3)*(Poblacion2020SO)
+Poblacion2023SO
+
+hist(Poblacion2023SO)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1SO=rep(0,n+1)
+vec_S1SO[1]=S1SO
+for(i in 2:(n+1)){
+  vec_S1SO[i]=as.double(a*vec_S1SO[i-1])%%m
+}
+vec_S1SO=vec_S1SO/m
+vec_S1SO<-vec_S1SO[-1]
+plot(vec_S1SO)
+hist(vec_S1SO)
+
+##Seleccionamos una j
+
+vec_jSO=rep(0,length(vec_S1SO))
+
+for(j in 1:n){
+  
+  if (vec_S1SO[j] < 1/3) {
+    vec_jSO[j]=base2[27,15]
+  } else {
+    if (vec_S1SO[j] < 2/3) {
+      vec_jSO[j]=base2[27,16]
+    } else {
+      vec_jSO[j]=base2[27,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023SO=Poblacion2023SO*vec_jSO
+Migracion2023SO
+
+hist(Migracion2023SO)
+hist(vec_jSO)
+
+
+# EDO. TABASCO
+
+a=7^5
+m=2^31-1
+S0TA=200003173+2*27   # Simulacion i
+S1TA=202003179+2*27   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0TA=rep(0,n+1)
+vec_S0TA[1]=S0TA
+for(i in 2:(n+1)){
+  vec_S0TA[i]=as.double(a*vec_S0TA[i-1])%%m
+}
+vec_S0TA=vec_S0TA/m
+vec_S0TA<-vec_S0TA[-1]
+plot(vec_S0TA)
+hist(vec_S0TA)
+
+## SELECCIONAR i
+
+vec_iTA=rep(0,length(vec_S0TA))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0TA[i]<.5) {
+    vec_iTA[i]=base2[28,13]
+  } else {
+    vec_iTA[i]=base2[28,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020TA=base2[28,4]
+Poblacion2020TA
+
+Poblacion2023TA=((1+vec_iTA)^3)*(Poblacion2020TA)
+Poblacion2023TA
+
+hist(Poblacion2023TA)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1TA=rep(0,n+1)
+vec_S1TA[1]=S1TA
+for(i in 2:(n+1)){
+  vec_S1TA[i]=as.double(a*vec_S1TA[i-1])%%m
+}
+vec_S1TA=vec_S1TA/m
+vec_S1TA<-vec_S1TA[-1]
+plot(vec_S1TA)
+hist(vec_S1TA)
+
+##Seleccionamos una j
+
+vec_jTA=rep(0,length(vec_S1TA))
+
+for(j in 1:n){
+  
+  if (vec_S1TA[j] < 1/3) {
+    vec_jTA[j]=base2[28,15]
+  } else {
+    if (vec_S1TA[j] < 2/3) {
+      vec_jTA[j]=base2[28,16]
+    } else {
+      vec_jTA[j]=base2[28,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023TA=Poblacion2023TA*vec_jTA
+Migracion2023TA
+
+hist(Migracion2023TA)
+hist(vec_jTA)
+
+
+#E EDO. TAMAULIPAS
+
+a=7^5
+m=2^31-1
+S0TM=200003173+2*28   # Simulacion i
+S1TM=202003179+2*28   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0TM=rep(0,n+1)
+vec_S0TM[1]=S0TM
+for(i in 2:(n+1)){
+  vec_S0TM[i]=as.double(a*vec_S0TM[i-1])%%m
+}
+vec_S0TM=vec_S0TM/m
+vec_S0TM<-vec_S0TM[-1]
+plot(vec_S0TM)
+hist(vec_S0TM)
+
+## SELECCIONAR i
+
+vec_iTM=rep(0,length(vec_S0TM))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0TM[i]<.5) {
+    vec_iTM[i]=base2[29,13]
+  } else {
+    vec_iTM[i]=base2[29,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020TM=base2[29,4]
+Poblacion2020TM
+
+Poblacion2023TM=((1+vec_iTM)^3)*(Poblacion2020TM)
+Poblacion2023TM
+
+hist(Poblacion2023TM)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1TM=rep(0,n+1)
+vec_S1TM[1]=S1TM
+for(i in 2:(n+1)){
+  vec_S1TM[i]=as.double(a*vec_S1TM[i-1])%%m
+}
+vec_S1TM=vec_S1TM/m
+vec_S1TM<-vec_S1TM[-1]
+plot(vec_S1TM)
+hist(vec_S1TM)
+
+##Seleccionamos una j
+
+vec_jTM=rep(0,length(vec_S1TM))
+
+for(j in 1:n){
+  
+  if (vec_S1TM[j] < 1/3) {
+    vec_jTM[j]=base2[29,15]
+  } else {
+    if (vec_S1TM[j] < 2/3) {
+      vec_jTM[j]=base2[29,16]
+    } else {
+      vec_jTM[j]=base2[29,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023TM=Poblacion2023TM*vec_jTM
+Migracion2023TM
+
+hist(Migracion2023TM)
+hist(vec_jTM)
+
+
+# EDO. TLAXCALA
+
+a=7^5
+m=2^31-1
+S0TX=200003173+2*29   # Simulacion i
+S1TX=202003179+2*29   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0TX=rep(0,n+1)
+vec_S0TX[1]=S0TX
+for(i in 2:(n+1)){
+  vec_S0TX[i]=as.double(a*vec_S0TX[i-1])%%m
+}
+vec_S0TX=vec_S0TX/m
+vec_S0TX<-vec_S0TX[-1]
+plot(vec_S0TX)
+hist(vec_S0TX)
+
+## SELECCIONAR i
+
+vec_iTX=rep(0,length(vec_S0TX))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0TX[i]<.5) {
+    vec_iTX[i]=base2[30,13]
+  } else {
+    vec_iTX[i]=base2[30,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020TX=base2[30,4]
+Poblacion2020TX
+
+Poblacion2023TX=((1+vec_iTX)^3)*(Poblacion2020TX)
+Poblacion2023TX
+
+hist(Poblacion2023TX)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1TX=rep(0,n+1)
+vec_S1TX[1]=S1TX
+for(i in 2:(n+1)){
+  vec_S1TX[i]=as.double(a*vec_S1TX[i-1])%%m
+}
+vec_S1TX=vec_S1TX/m
+vec_S1TX<-vec_S1TX[-1]
+plot(vec_S1TX)
+hist(vec_S1TX)
+
+##Seleccionamos una j
+
+vec_jTX=rep(0,length(vec_S1TX))
+
+for(j in 1:n){
+  
+  if (vec_S1TX[j] < 1/3) {
+    vec_jTX[j]=base2[30,15]
+  } else {
+    if (vec_S1TX[j] < 2/3) {
+      vec_jTX[j]=base2[30,16]
+    } else {
+      vec_jTX[j]=base2[30,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023TX=Poblacion2023TX*vec_jTX
+Migracion2023TX
+
+hist(Migracion2023TX)
+hist(vec_jTX)
+
+
+# EDO. VERACRUZ
+
+a=7^5
+m=2^31-1
+S0VR=200003173+2*30   # Simulacion i
+S1VR=202003179+2*30   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0VR=rep(0,n+1)
+vec_S0VR[1]=S0VR
+for(i in 2:(n+1)){
+  vec_S0VR[i]=as.double(a*vec_S0VR[i-1])%%m
+}
+vec_S0VR=vec_S0VR/m
+vec_S0VR<-vec_S0VR[-1]
+plot(vec_S0VR)
+hist(vec_S0VR)
+
+## SELECCIONAR i
+
+vec_iVR=rep(0,length(vec_S0VR))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0VR[i]<.5) {
+    vec_iVR[i]=base2[31,13]
+  } else {
+    vec_iVR[i]=base2[31,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020VR=base2[31,4]
+Poblacion2020VR
+
+Poblacion2023VR=((1+vec_iVR)^3)*(Poblacion2020VR)
+Poblacion2023VR
+
+hist(Poblacion2023VR)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1VR=rep(0,n+1)
+vec_S1VR[1]=S1VR
+for(i in 2:(n+1)){
+  vec_S1VR[i]=as.double(a*vec_S1VR[i-1])%%m
+}
+vec_S1VR=vec_S1VR/m
+vec_S1VR<-vec_S1VR[-1]
+plot(vec_S1VR)
+hist(vec_S1VR)
+
+##Seleccionamos una j
+
+vec_jVR=rep(0,length(vec_S1VR))
+
+for(j in 1:n){
+  
+  if (vec_S1VR[j] < 1/3) {
+    vec_jVR[j]=base2[31,15]
+  } else {
+    if (vec_S1VR[j] < 2/3) {
+      vec_jVR[j]=base2[31,16]
+    } else {
+      vec_jVR[j]=base2[31,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023VR=Poblacion2023VR*vec_jVR
+Migracion2023VR
+
+hist(Migracion2023VR)
+hist(vec_jVR)
+
+
+# EDO. YUCATAN
+
+a=7^5
+m=2^31-1
+S0YU=200003173+2*31   # Simulacion i
+S1YU=202003179+2*31   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0YU=rep(0,n+1)
+vec_S0YU[1]=S0YU
+for(i in 2:(n+1)){
+  vec_S0YU[i]=as.double(a*vec_S0YU[i-1])%%m
+}
+vec_S0YU=vec_S0YU/m
+vec_S0YU<-vec_S0YU[-1]
+plot(vec_S0YU)
+hist(vec_S0YU)
+
+## SELECCIONAR i
+
+vec_iYU=rep(0,length(vec_S0YU))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0YU[i]<.5) {
+    vec_iYU[i]=base2[32,13]
+  } else {
+    vec_iYU[i]=base2[32,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020YU=base2[32,4]
+Poblacion2020YU
+
+Poblacion2023YU=((1+vec_iYU)^3)*(Poblacion2020YU)
+Poblacion2023YU
+
+hist(Poblacion2023YU)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1YU=rep(0,n+1)
+vec_S1YU[1]=S1YU
+for(i in 2:(n+1)){
+  vec_S1YU[i]=as.double(a*vec_S1YU[i-1])%%m
+}
+vec_S1YU=vec_S1YU/m
+vec_S1YU<-vec_S1YU[-1]
+plot(vec_S1YU)
+hist(vec_S1YU)
+
+##Seleccionamos una j
+
+vec_jYU=rep(0,length(vec_S1YU))
+
+for(j in 1:n){
+  
+  if (vec_S1YU[j] < 1/3) {
+    vec_jYU[j]=base2[32,15]
+  } else {
+    if (vec_S1YU[j] < 2/3) {
+      vec_jYU[j]=base2[32,16]
+    } else {
+      vec_jYU[j]=base2[32,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023YU=Poblacion2023YU*vec_jYU
+Migracion2023YU
+
+hist(Migracion2023YU)
+hist(vec_jYU)
+
+
+# EDO. ZACATECAS
+
+a=7^5
+m=2^31-1
+S0ZA=200003173+2*32   # Simulacion i
+S1ZA=202003179+2*32   # Simulacion j
+n=10000
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra i
+
+vec_S0ZA=rep(0,n+1)
+vec_S0ZA[1]=S0ZA
+for(i in 2:(n+1)){
+  vec_S0ZA[i]=as.double(a*vec_S0ZA[i-1])%%m
+}
+vec_S0ZA=vec_S0ZA/m
+vec_S0ZA<-vec_S0ZA[-1]
+plot(vec_S0ZA)
+hist(vec_S0ZA)
+
+## SELECCIONAR i
+
+vec_iZA=rep(0,length(vec_S0ZA))
+#for (p in 1:32){}
+for(i in 1:n){
+  
+  if(vec_S0ZA[i]<.5) {
+    vec_iZA[i]=base2[33,13]
+  } else {
+    vec_iZA[i]=base2[33,14]
+    
+  }}
+
+## ESTIMAR POBLACION 2023
+
+Poblacion2020ZA=base2[33,4]
+Poblacion2020ZA
+
+Poblacion2023ZA=((1+vec_iZA)^3)*(Poblacion2020ZA)
+Poblacion2023ZA
+
+hist(Poblacion2023ZA)
+
+# Simulamos  uniformes y escogemos una para después seleccionar nuestra j
+
+vec_S1ZA=rep(0,n+1)
+vec_S1ZA[1]=S1ZA
+for(i in 2:(n+1)){
+  vec_S1ZA[i]=as.double(a*vec_S1ZA[i-1])%%m
+}
+vec_S1ZA=vec_S1ZA/m
+vec_S1ZA<-vec_S1ZA[-1]
+plot(vec_S1ZA)
+hist(vec_S1ZA)
+
+##Seleccionamos una j
+
+vec_jZA=rep(0,length(vec_S1ZA))
+
+for(j in 1:n){
+  
+  if (vec_S1ZA[j] < 1/3) {
+    vec_jZA[j]=base2[33,15]
+  } else {
+    if (vec_S1ZA[j] < 2/3) {
+      vec_jZA[j]=base2[33,16]
+    } else {
+      vec_jZA[j]=base2[33,17]
+    }
+  }
+}
+
+## MIGRACIÓN PARA 2023
+
+Migracion2023ZA=Poblacion2023ZA*vec_jZA
+Migracion2023ZA
+
+hist(Migracion2023ZA)
+hist(vec_jZA)
+
+
+b<-cbind(c(Poblacion2023AG),c(Migracion2023AG)
+         ,c(Poblacion2023BC),c(Migracion2023BC)
+         ,c(Poblacion2023BCS),c(Migracion2023BCS)
+         ,c(Poblacion2023CA),c(Migracion2023CA)
+         ,c(Poblacion2023CH),c(Migracion2023CH)
+         ,c(Poblacion2023CL),c(Migracion2023CL)
+         ,c(Poblacion2023CM),c(Migracion2023CM)
+         ,c(Poblacion2023CO),c(Migracion2023CO)
+         ,c(Poblacion2023CS),c(Migracion2023CS)
+         ,c(Poblacion2023DG),c(Migracion2023DG)
+         ,c(Poblacion2023EM),c(Migracion2023EM)
+         ,c(Poblacion2023GRO),c(Migracion2023GRO)
+         ,c(Poblacion2023GTO),c(Migracion2023GTO)
+         ,c(Poblacion2023HG),c(Migracion2023HG)
+         ,c(Poblacion2023JA),c(Migracion2023JA)
+         ,c(Poblacion2023MI),c(Migracion2023MI)
+         ,c(Poblacion2023MO),c(Migracion2023MO)
+         ,c(Poblacion2023NA),c(Migracion2023NA)
+         ,c(Poblacion2023NL),c(Migracion2023NL)
+         ,c(Poblacion2023OA),c(Migracion2023OA)
+         ,c(Poblacion2023PU),c(Migracion2023PU)
+         ,c(Poblacion2023QR),c(Migracion2023QR)
+         ,c(Poblacion2023QT),c(Migracion2023QT)
+         ,c(Poblacion2023SI),c(Migracion2023SI)
+         ,c(Poblacion2023SLP),c(Migracion2023SLP)
+         ,c(Poblacion2023SO),c(Migracion2023SO)
+         ,c(Poblacion2023TA),c(Migracion2023TA)
+         ,c(Poblacion2023TM),c(Migracion2023TM)
+         ,c(Poblacion2023TX),c(Migracion2023TX)
+         ,c(Poblacion2023VR),c(Migracion2023VR)
+         ,c(Poblacion2023YU),c(Migracion2023YU)
+         ,c(Poblacion2023ZA),c(Migracion2023ZA))
+          
+
+dimnames(b)=list(NULL
+                 ,c("Población 2023 AG", "Migración 2023 AG", 
+                    "Población 2023 BC", "Migración 2023 BC",
+                    "Población 2023 BCS", "Migración 2023 BCS",
+                    "Poblacion2023CA","Migracion2023CA",
+                    "Poblacion2023CH","Migracion2023CH",
+                    "Poblacion2023CL","Migracion2023CL",
+                    "Poblacion2023CM","Migracion2023CM",
+                    "Poblacion2023CO","Migracion2023CO",
+                    "Poblacion2023CS","Migracion2023CS",
+                    "Poblacion2023DG","Migracion2023DG",
+                    "Poblacion2023EM","Migracion2023EM",
+                    "Poblacion2023GRO","Migracion2023GRO",
+                    "Poblacion2023GTO","Migracion2023GTO",
+                    "Poblacion2023HG","Migracion2023HG",
+                    "Poblacion2023JA","Migracion2023JA",
+                    "Poblacion2023MI","Migracion2023MI",
+                    "Poblacion2023MO","Migracion2023MO",
+                    "Poblacion2023NA","Migracion2023NA",
+                    "Poblacion2023NL","Migracion2023NL",
+                    "Poblacion2023OA","Migracion2023OA",
+                    "Poblacion2023PU","Migracion2023PU",
+                    "Poblacion2023QR","Migracion2023QR",
+                    "Poblacion2023QT","Migracion2023QT",
+                    "Poblacion2023SI","Migracion2023SI",
+                    "Poblacion2023SLP","Migracion2023SLP",
+                    "Poblacion2023SO","Migracion2023SO",
+                    "Poblacion2023TA","Migracion2023TA",
+                    "Poblacion2023TM","Migracion2023TM",
+                    "Poblacion2023TX","Migracion2023TX",
+                    "Poblacion2023VR","Migracion2023VR",
+                    "Poblacion2023YU","Migracion2023YU",
+                    "Poblacion2023ZA","Migracion2023ZA"))
+
+View(b)
+
+## POBLACIÓN TOTAL
+
+PoblaciónTotal2023<-b[,-c(2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,
+                      48,50,52,54,56,58,60,62,64)]
+
+SumaPoblación<- rowSums(PoblaciónTotal2023)
+PoblaciónTotal<- cbind(PoblaciónTotal2023,SumaPoblación)
+View(PoblaciónTotal)
+
+hist(rowSums(PoblaciónTotal2023))
+
+
+## MIGRACIÓN TOTAL
+
+MigraciónTotal2023<-b[,-c(1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,
+                       47,49,51,53,55,57,59,61,63)]
+
+SumaMigración<- rowSums(MigraciónTotal2023)
+MigraciónTotal<- cbind(MigraciónTotal2023,SumaMigración)
+View(MigraciónTotal)
+
+hist(rowSums(MigraciónTotal2023))
